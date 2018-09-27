@@ -1,0 +1,41 @@
+---
+title: "Hw-03_gapminder"
+author: "Chenchen Guo"
+date: "2018 Sep 26th"
+output: github_document
+---
+
+
+
+## R Markdown
+
+```{r warning=FALSE}
+# Load gapminder and ggplot2 package
+library(ggplot2)
+library(gapminder)
+library(dplyr)
+library(tidyverse)
+
+# For ggplot2 package, gonna use: scatter plot, line plot, historgram plot, density plot, box and violin plot,jitter plot, bubble plots, bar plot, overplot,path plot, facetting.
+
+# For dplyr package, gonna use: filter(), arrange(), select(), rename(), mutate(), transmute(), summarise(), sample_n(), sample_frac().
+
+
+```
+
+
+```{r}
+#First list the basic information of dataset: gapminder
+typeof(gapminder)
+ls(gapminder)
+
+dim(gapminder)
+# same as ncol and nrow
+head(gapminder)
+list(gapminder)
+summary(gapminder)
+str(gapminder)
+
+
+```
+
