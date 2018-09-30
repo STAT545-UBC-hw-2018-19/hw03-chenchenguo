@@ -3,6 +3,7 @@ title: "Hw-03_gapminder"
 author: "Chenchen Guo"
 date: "2018 Sep 26th"
 output: github_document
+always_allow_html: yes
 ---
 
 
@@ -11,10 +12,13 @@ output: github_document
 
 ```{r warning=FALSE}
 # Load gapminder and ggplot2 package
-library(ggplot2)
-library(gapminder)
-library(dplyr)
-library(tidyverse)
+
+suppressPackageStartupMessages(library(gapminder))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(knitr))
+suppressPackageStartupMessages(library(kableExtra))
+
 
 # For ggplot2 package, gonna use: scatter plot, line plot, historgram plot, density plot, box and violin plot,jitter plot, bubble plots, bar plot, overplot,path plot, facetting.
 
@@ -24,7 +28,7 @@ library(tidyverse)
 ```
 
 
-```{r}
+```{r warning=FALSE}
 #First list the basic information of dataset: gapminder
 typeof(gapminder)
 ls(gapminder)
@@ -36,6 +40,165 @@ list(gapminder)
 summary(gapminder)
 str(gapminder)
 
+```
+```{r warning=FALSE}
+
+# Task 1: Get the minimum and maximum of GDP per capita for all continents
+
+Gdp=gapminder %>% 
+  group_by(continent) %>% 
+  summarize(Maxgdp=max(gdpPercap), Mingdp=min(gdpPercap))
+
+knitr::kable(Gdp) %>% 
+  kable_styling(bootstrap_options = "bordered",latex_options = "basic",full_width = F)
+
+Gdp %>% 
+  ggplot(aes(continent,Maxgdp, fill=continent))+
+  geom_col()+xlab("Continent")+ylab("Maximum GdpPercap")+
+  ggtitle("Maximum GdpPercap of each continent")
+Gdp %>% 
+  ggplot(aes(continent,Mingdp,fill=continent))+
+  geom_col()+xlab("Continent")+ylab("Minimum GdpPercap")+
+  ggtitle("Minimum GdpPercap of each continent")
+
+gapminder %>% 
+  ggplot(aes(continent,gdpPercap,color=continent))+
+  geom_violin()+ xlab("Continent")+ylab("Maximum GdpPercap")+
+  ggtitle(" GdpPercap distribution of each continent")
+
+trend= gapminder %>% 
+  group_by(continent, year) %>% 
+  summarize(Maxigdp=max(gdpPercap), Minigdp=min(gdpPercap))
+trend %>% 
+  ggplot(aes(year, Maxigdp,shape=continent, color=continent))+
+  geom_point()+
+  geom_line()+xlab("Year")+ylab("Maximum GdpPercap")+
+  ggtitle("Trend of Maximum GdpPercap for each continent")
+
+trend %>% 
+  ggplot(aes(year, Minigdp,shape=continent, color=continent))+
+  geom_point()+
+  geom_line()+xlab("Year")+ylab("Minimum GdpPercap")+
+  ggtitle("Trend of Minimum GdpPercap for each continent")
+
+
+
+```
+
+```{r warning=FALSE}
+#Task 2: Look the spread of GDP per capita within the continents
+
+gapminder %>% 
+  ggplot(aes(gdpPercap, fill=continent))+
+  facet_wrap(~ continent, scales = "free_y")+
+  geom_histogram()+xlab("GDPpercap")+ylab("Count")+
+  ggtitle("GDP spread of each continent")
+
+gapminder %>% 
+  ggplot(aes(gdpPercap, fill=continent))+
+  facet_wrap(~continent)+
+  geom_density()+xlab("GDPpercap")+ylab("Count")+
+  ggtitle("GDP distribution of each continent")
+
+
+tbgdp= gapminder %>% 
+  group_by(continent) %>% 
+  summarize(Min=min(gdpPercap), Mean=mean(gdpPercap), Median=median(gdpPercap), Max=max(gdpPercap))
+knitr::kable(tbgdp) %>% 
+  kable_styling(bootstrap_options = "bordered",latex_options = "basic",full_width = F)
+```
+```{r warning=FALSE}
+# Task 3: Compute the trimmed mean of life expectancy for different years. Or a weighted mean, weighting by population. Just try something other than the plain vanilla mean.
+
+trimmed=gapminder %>% 
+  group_by(year) %>% 
+  summarize(mean_lifeexp=mean(lifeExp), trimmed_mean_lifeexp=mean(lifeExp,trim = 0.1)) %>% 
+  arrange(year)
+knitr::kable(trimmed) %>% 
+  kable_styling(bootstrap_options = "bordered",latex_options = "basic",full_width = F)
+
+ggplot(trimmed,aes(year,trimmed_mean_lifeexp))+
+  geom_point(color="blue")+
+  geom_line(color="blue")+
+  geom_point(aes(year,mean_lifeexp))+
+  geom_line(aes(year,mean_lifeexp),color="red")+
+  ggtitle("Blue:Trimmed, Red: Mean")
+
+
+weighted=gapminder %>% 
+  group_by(year) %>% 
+  summarize(mean=mean(lifeExp),weighted_mean_life=weighted.mean(lifeExp,pop)) %>% 
+  arrange(year)
+
+
+
+
+knitr::kable(weighted) %>% 
+  kable_styling(bootstrap_options = "bordered",latex_options = "basic",full_width = F)
+ggplot(weighted,aes(year,weighted_mean_life))+
+  geom_point(color="blue")+
+  geom_line(color="blue")+
+  geom_point(aes(year,mean))+
+  geom_line(aes(year,mean),color="red")+
+  ggtitle("Blue:Weighted, Red: Mean")
+```
+
+```{r warning=FALSE}
+# Task 4: How is the life Expectancy changing over time on different continents?
+
+lifechange=gapminder %>% 
+  group_by(continent, year) %>% 
+  summarize(Mean_lifeexp=mean(lifeExp), Max_lifeexp=max(lifeExp), Min_lifeexp=min(lifeExp))
+
+knitr::kable(lifechange) %>% 
+  kable_styling(bootstrap_options = "bordered",latex_options = "basic",full_width = F)
+
+  
+lifechange %>% 
+  ggplot(aes(year, Mean_lifeexp, color=continent))+
+  geom_point()+geom_smooth(method = "lm", se=FALSE)+
+  ggtitle("Mean Life expectancy  changing of different continents")
+
+gapminder %>% 
+  ggplot(aes(year, lifeExp, color=continent))+
+  geom_point()+geom_smooth(method = "lm", se=FALSE)+
+  ggtitle("Life expectancy  changing of different continents")
+
+gapminder %>% 
+  ggplot(aes(year, lifeExp, color=continent))+
+  facet_wrap( ~continent, scales = "free_y")+
+  geom_point()+geom_smooth(method = "lm", se=FALSE)+
+  ggtitle("Life expectancy  changing of different continents")
+  
+```
+```{r warning=FALSE}
+#Task 5: Report the absolute and or relative abundance of countries with low life expectancy over time by continent: Compute some measure of worldwide life expectancy- a mean or median or some other quantile or perhaps your current age. Then determine how many counties on each continent have a life expectancy less than this benchmark, for each year.
+
+benchmark_lifeexp= gapminder %>% 
+  group_by(continent) %>%
+  summarize(Min=min(lifeExp), Mean=mean(lifeExp), Median=median(lifeExp), Max=max(lifeExp))
+knitr::kable(benchmark_lifeexp) %>% 
+  kable_styling(bootstrap_options = "bordered",latex_options = "basic",full_width = F)
+  
+a<- c(48.86533,64.65874,60.06490,71.90369,74.32621)
+wholemean= mean(a)
+wholemean
+# The benchmark is 63.96377, round to 64
+
+lowlifenumber= gapminder %>% 
+  group_by(continent,year) %>% 
+  filter(lifeExp<64) %>% 
+  count()
+
+# In this table, n represents the number of countries whose life expectancy is below 64 for each year
+knitr::kable(lowlifenumber) %>% 
+  kable_styling(bootstrap_options = "bordered",latex_options = "basic",full_width = F)
+
+
+lowlifenumber %>% 
+  ggplot(aes(year,n, color=continent))+
+  facet_wrap(~ continent)+
+  geom_col()+ggtitle("Number of countries (LifeExp < 64) of each continent for each year")
 
 ```
 
