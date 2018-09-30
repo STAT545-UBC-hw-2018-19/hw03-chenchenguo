@@ -108,6 +108,7 @@ knitr::kable(tbgdp) %>%
   kable_styling(bootstrap_options = "bordered",latex_options = "basic",full_width = F)
 ```
 ```{r warning=FALSE}
+
 # Task 3: Compute the trimmed mean of life expectancy for different years. Or a weighted mean, weighting by population. Just try something other than the plain vanilla mean.
 
 trimmed=gapminder %>% 
@@ -126,6 +127,9 @@ ggplot(trimmed,aes(year,trimmed_mean_lifeexp))+
   ggtitle("Blue:Trimmed, Red: Mean")
 
 
+
+```
+```{r}
 weighted=gapminder %>% 
   group_by(year) %>% 
   summarize(mean=mean(lifeExp),weighted_mean_life=weighted.mean(lifeExp,pop)) %>% 

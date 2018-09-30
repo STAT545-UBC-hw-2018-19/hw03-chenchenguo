@@ -721,7 +721,7 @@ ggplot(weighted,aes(year,weighted_mean_life))+
   ggtitle("Blue:Weighted, Red: Mean")
 ```
 
-![](hw03_gapminder-chenchenguo_files/figure-markdown_github/unnamed-chunk-5-2.png)
+![](hw03_gapminder-chenchenguo_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
 ``` r
 # Task 4: How is the life Expectancy changing over time on different continents?
@@ -1784,7 +1784,7 @@ lifechange %>%
   ggtitle("Mean Life expectancy  changing of different continents")
 ```
 
-![](hw03_gapminder-chenchenguo_files/figure-markdown_github/unnamed-chunk-6-1.png)
+![](hw03_gapminder-chenchenguo_files/figure-markdown_github/unnamed-chunk-7-1.png)
 
 ``` r
 gapminder %>% 
@@ -1793,7 +1793,7 @@ gapminder %>%
   ggtitle("Life expectancy  changing of different continents")
 ```
 
-![](hw03_gapminder-chenchenguo_files/figure-markdown_github/unnamed-chunk-6-2.png)
+![](hw03_gapminder-chenchenguo_files/figure-markdown_github/unnamed-chunk-7-2.png)
 
 ``` r
 gapminder %>% 
@@ -1803,7 +1803,7 @@ gapminder %>%
   ggtitle("Life expectancy  changing of different continents")
 ```
 
-![](hw03_gapminder-chenchenguo_files/figure-markdown_github/unnamed-chunk-6-3.png)
+![](hw03_gapminder-chenchenguo_files/figure-markdown_github/unnamed-chunk-7-3.png)
 
 ``` r
 #Task 5: Report the absolute and or relative abundance of countries with low life expectancy over time by continent: Compute some measure of worldwide life expectancy- a mean or median or some other quantile or perhaps your current age. Then determine how many counties on each continent have a life expectancy less than this benchmark, for each year.
@@ -2452,4 +2452,4 @@ lowlifenumber %>%
   geom_col()+ggtitle("Number of countries (LifeExp < 64) of each continent for each year")
 ```
 
-![](hw03_gapminder-chenchenguo_files/figure-markdown_github/unnamed-chunk-7-1.png)
+![](hw03_gapminder-chenchenguo_files/figure-markdown_github/unnamed-chunk-8-1.png)
