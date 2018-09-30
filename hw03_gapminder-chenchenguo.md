@@ -386,8 +386,9 @@ Oceania
 
 trimmed=gapminder %>% 
   group_by(year) %>% 
-  summarize(mean_lifeexp=mean(lifeExp), trimmed_mean_lifeexp=mean(lifeExp,trim = 0.1)) %>% 
+  summarize(mean_lifeexp=mean(lifeExp), trimmed_mean_lifeexp=mean(lifeExp,trim = 0.25)) %>% 
   arrange(year)
+
 knitr::kable(trimmed) %>% 
   kable_styling(bootstrap_options = "bordered",latex_options = "basic",full_width = F)
 ```
@@ -415,7 +416,7 @@ trimmed\_mean\_lifeexp
 49.05762
 </td>
 <td style="text-align:right;">
-48.57668
+47.33607
 </td>
 </tr>
 <tr>
@@ -426,7 +427,7 @@ trimmed\_mean\_lifeexp
 51.50740
 </td>
 <td style="text-align:right;">
-51.26888
+50.27669
 </td>
 </tr>
 <tr>
@@ -437,7 +438,7 @@ trimmed\_mean\_lifeexp
 53.60925
 </td>
 <td style="text-align:right;">
-53.58075
+52.79151
 </td>
 </tr>
 <tr>
@@ -448,7 +449,7 @@ trimmed\_mean\_lifeexp
 55.67829
 </td>
 <td style="text-align:right;">
-55.86538
+55.43138
 </td>
 </tr>
 <tr>
@@ -459,7 +460,7 @@ trimmed\_mean\_lifeexp
 57.64739
 </td>
 <td style="text-align:right;">
-58.01444
+58.07853
 </td>
 </tr>
 <tr>
@@ -470,7 +471,7 @@ trimmed\_mean\_lifeexp
 59.57016
 </td>
 <td style="text-align:right;">
-60.10206
+60.46878
 </td>
 </tr>
 <tr>
@@ -481,7 +482,7 @@ trimmed\_mean\_lifeexp
 61.53320
 </td>
 <td style="text-align:right;">
-62.11694
+62.70044
 </td>
 </tr>
 <tr>
@@ -492,7 +493,7 @@ trimmed\_mean\_lifeexp
 63.21261
 </td>
 <td style="text-align:right;">
-63.92106
+64.76540
 </td>
 </tr>
 <tr>
@@ -503,7 +504,7 @@ trimmed\_mean\_lifeexp
 64.16034
 </td>
 <td style="text-align:right;">
-65.18519
+66.19274
 </td>
 </tr>
 <tr>
@@ -514,7 +515,7 @@ trimmed\_mean\_lifeexp
 65.01468
 </td>
 <td style="text-align:right;">
-66.01736
+67.25389
 </td>
 </tr>
 <tr>
@@ -525,7 +526,7 @@ trimmed\_mean\_lifeexp
 65.69492
 </td>
 <td style="text-align:right;">
-66.71641
+68.30965
 </td>
 </tr>
 <tr>
@@ -536,7 +537,7 @@ trimmed\_mean\_lifeexp
 67.00742
 </td>
 <td style="text-align:right;">
-68.11489
+69.68886
 </td>
 </tr>
 </tbody>
@@ -557,9 +558,6 @@ weighted=gapminder %>%
   group_by(year) %>% 
   summarize(mean=mean(lifeExp),weighted_mean_life=weighted.mean(lifeExp,pop)) %>% 
   arrange(year)
-
-
-
 
 knitr::kable(weighted) %>% 
   kable_styling(bootstrap_options = "bordered",latex_options = "basic",full_width = F)

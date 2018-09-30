@@ -112,8 +112,9 @@ knitr::kable(tbgdp) %>%
 
 trimmed=gapminder %>% 
   group_by(year) %>% 
-  summarize(mean_lifeexp=mean(lifeExp), trimmed_mean_lifeexp=mean(lifeExp,trim = 0.1)) %>% 
+  summarize(mean_lifeexp=mean(lifeExp), trimmed_mean_lifeexp=mean(lifeExp,trim = 0.25)) %>% 
   arrange(year)
+
 knitr::kable(trimmed) %>% 
   kable_styling(bootstrap_options = "bordered",latex_options = "basic",full_width = F)
 
@@ -130,11 +131,9 @@ weighted=gapminder %>%
   summarize(mean=mean(lifeExp),weighted_mean_life=weighted.mean(lifeExp,pop)) %>% 
   arrange(year)
 
-
-
-
 knitr::kable(weighted) %>% 
   kable_styling(bootstrap_options = "bordered",latex_options = "basic",full_width = F)
+
 ggplot(weighted,aes(year,weighted_mean_life))+
   geom_point(color="blue")+
   geom_line(color="blue")+
