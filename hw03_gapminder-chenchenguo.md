@@ -555,7 +555,7 @@ ggplot(trimmed,aes(year,trimmed_mean_lifeexp))+
   geom_line(color="blue")+
   geom_point(aes(year,mean_lifeexp))+
   geom_line(aes(year,mean_lifeexp),color="red")+
-  ggtitle("Blue:Trimmed, Red: Mean")
+  ggtitle("Blue:Trimmed Mean, Red: Normal Mean")
 ```
 
 ![](hw03_gapminder-chenchenguo_files/figure-markdown_github/unnamed-chunk-5-1.png)
@@ -727,7 +727,7 @@ ggplot(weighted,aes(year,weighted_mean_life))+
   geom_line(color="blue")+
   geom_point(aes(year,mean))+
   geom_line(aes(year,mean),color="red")+
-  ggtitle("Blue:Weighted, Red: Mean")
+  ggtitle("Blue:Weighted Mean, Red:Normal Mean")
 ```
 
 ![](hw03_gapminder-chenchenguo_files/figure-markdown_github/unnamed-chunk-6-1.png)
