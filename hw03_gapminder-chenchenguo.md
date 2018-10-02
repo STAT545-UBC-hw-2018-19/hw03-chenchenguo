@@ -396,10 +396,10 @@ trimmed=gapminder %>%
   arrange(year)
 
 knitr::kable(trimmed) %>% 
-  kable_styling(bootstrap_options = "bordered",latex_options = "basic",full_width = F)
+  kable_styling(bootstrap_options = "bordered",latex_options = "basic",full_width = TRUE)
 ```
 
-<table class="table table-bordered" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:right;">

@@ -121,7 +121,7 @@ trimmed=gapminder %>%
   arrange(year)
 
 knitr::kable(trimmed) %>% 
-  kable_styling(bootstrap_options = "bordered",latex_options = "basic",full_width = F)
+  kable_styling(bootstrap_options = "bordered",latex_options = "basic",full_width = TRUE)
 
 # Here, two line of both trimmed mean and normal mean are shown in a figure to separately indicate the tendency.
 ggplot(trimmed,aes(year,trimmed_mean_lifeexp))+
