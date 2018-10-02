@@ -23,6 +23,7 @@ suppressPackageStartupMessages(library(kableExtra))
 
 ``` r
 #First list the basic information of dataset: gapminder
+#this part of code is to show basic information of gapminder data set
 typeof(gapminder)
 ```
 
@@ -111,6 +112,7 @@ str(gapminder)
 ``` r
 # Task 1: Get the minimum and maximum of GDP per capita for all continents
 
+# In order to observe the max and min GdpPercap for all continents, using group_by() and summarize() function and using knitr::kable to indicate the data.
 Gdp=gapminder %>% 
   group_by(continent) %>% 
   summarize(Maxgdp=max(gdpPercap), Mingdp=min(gdpPercap))
@@ -219,6 +221,7 @@ gapminder %>%
 ![](hw03_gapminder-chenchenguo_files/figure-markdown_github/unnamed-chunk-3-3.png)
 
 ``` r
+# To interprate data visually, using scatter plot and line fitting, to show the tendency of each one.
 trend= gapminder %>% 
   group_by(continent, year) %>% 
   summarize(Maxigdp=max(gdpPercap), Minigdp=min(gdpPercap))
@@ -243,7 +246,7 @@ trend %>%
 
 ``` r
 #Task 2: Look the spread of GDP per capita within the continents
-
+# Firstly, using hist plot to partly showing GDPpercap data of each continent and showing the density of distribution for Gdp of each continent.
 gapminder %>% 
   ggplot(aes(gdpPercap, fill=continent))+
   facet_wrap(~ continent, scales = "free_y")+
@@ -266,6 +269,7 @@ gapminder %>%
 ![](hw03_gapminder-chenchenguo_files/figure-markdown_github/unnamed-chunk-4-2.png)
 
 ``` r
+# Then through grouping by continent, using summarize() function to inteprate data.
 tbgdp= gapminder %>% 
   group_by(continent) %>% 
   summarize(Min=min(gdpPercap), Mean=mean(gdpPercap), Median=median(gdpPercap), Max=max(gdpPercap))
@@ -384,6 +388,8 @@ Oceania
 ``` r
 # Task 3: Compute the trimmed mean of life expectancy for different years. Or a weighted mean, weighting by population. Just try something other than the plain vanilla mean.
 
+
+# Here, trimmed mean coefficient has been set to 0.25, which means quarter part of begin and end data are ignored.
 trimmed=gapminder %>% 
   group_by(year) %>% 
   summarize(mean_lifeexp=mean(lifeExp), trimmed_mean_lifeexp=mean(lifeExp,trim = 0.25)) %>% 
@@ -543,6 +549,7 @@ trimmed\_mean\_lifeexp
 </tbody>
 </table>
 ``` r
+# Here, two line of both trimmed mean and normal mean are shown in a figure to separately indicate the tendency.
 ggplot(trimmed,aes(year,trimmed_mean_lifeexp))+
   geom_point(color="blue")+
   geom_line(color="blue")+
@@ -554,6 +561,7 @@ ggplot(trimmed,aes(year,trimmed_mean_lifeexp))+
 ![](hw03_gapminder-chenchenguo_files/figure-markdown_github/unnamed-chunk-5-1.png)
 
 ``` r
+# similarly to upper code, the weighted mean has been arranged by year.
 weighted=gapminder %>% 
   group_by(year) %>% 
   summarize(mean=mean(lifeExp),weighted_mean_life=weighted.mean(lifeExp,pop)) %>% 
@@ -713,6 +721,7 @@ weighted\_mean\_life
 </tbody>
 </table>
 ``` r
+# both normal mean and weighted mean are shown in one figure.
 ggplot(weighted,aes(year,weighted_mean_life))+
   geom_point(color="blue")+
   geom_line(color="blue")+
@@ -725,7 +734,7 @@ ggplot(weighted,aes(year,weighted_mean_life))+
 
 ``` r
 # Task 4: How is the life Expectancy changing over time on different continents?
-
+# using summarize() function to show all mean, max and mini lifeexp by year.
 lifechange=gapminder %>% 
   group_by(continent, year) %>% 
   summarize(Mean_lifeexp=mean(lifeExp), Max_lifeexp=max(lifeExp), Min_lifeexp=min(lifeExp))
@@ -1778,6 +1787,7 @@ Oceania
 </tbody>
 </table>
 ``` r
+ # this figure indicated the scatter plot of mean lifeexp changing with fitting line of each continent. 
 lifechange %>% 
   ggplot(aes(year, Mean_lifeexp, color=continent))+
   geom_point()+geom_smooth(method = "lm", se=FALSE)+
@@ -1787,6 +1797,7 @@ lifechange %>%
 ![](hw03_gapminder-chenchenguo_files/figure-markdown_github/unnamed-chunk-7-1.png)
 
 ``` r
+# and this one indicated the general lifeexpectancy changing of different continent
 gapminder %>% 
   ggplot(aes(year, lifeExp, color=continent))+
   geom_point()+geom_smooth(method = "lm", se=FALSE)+
@@ -1796,6 +1807,7 @@ gapminder %>%
 ![](hw03_gapminder-chenchenguo_files/figure-markdown_github/unnamed-chunk-7-2.png)
 
 ``` r
+# the difference of this and upper figure is to seperately using y label to more directly interpret the data.
 gapminder %>% 
   ggplot(aes(year, lifeExp, color=continent))+
   facet_wrap( ~continent, scales = "free_y")+
@@ -1808,6 +1820,8 @@ gapminder %>%
 ``` r
 #Task 5: Report the absolute and or relative abundance of countries with low life expectancy over time by continent: Compute some measure of worldwide life expectancy- a mean or median or some other quantile or perhaps your current age. Then determine how many counties on each continent have a life expectancy less than this benchmark, for each year.
 
+
+# the benchmark here I decided to use the mean of mean lifeexp for all continent.
 benchmark_lifeexp= gapminder %>% 
   group_by(continent) %>%
   summarize(Min=min(lifeExp), Mean=mean(lifeExp), Median=median(lifeExp), Max=max(lifeExp))
@@ -1924,6 +1938,8 @@ Oceania
 </tbody>
 </table>
 ``` r
+#initial a array called a to store all mean lifeexp of each continent.
+# the setted benchmark is wholemean
 a<- c(48.86533,64.65874,60.06490,71.90369,74.32621)
 wholemean= mean(a)
 wholemean
@@ -1934,6 +1950,7 @@ wholemean
 ``` r
 # The benchmark is 63.96377, round to 64
 
+# using filter function to filter out continent countries whose lifeexp is lower than benchmark
 lowlifenumber= gapminder %>% 
   group_by(continent,year) %>% 
   filter(lifeExp<64) %>% 
@@ -2446,10 +2463,12 @@ Europe
 </tbody>
 </table>
 ``` r
+#finally using geom_col is the best way to compare the number of countries that lower than benchmark.
 lowlifenumber %>% 
   ggplot(aes(year,n, color=continent))+
-  facet_wrap(~ continent)+
-  geom_col()+ggtitle("Number of countries (LifeExp < 64) of each continent for each year")
+  facet_wrap(~ continent, scales="free_y")+
+  geom_col()+
+  ggtitle("Number of countries (LifeExp < 64) of each continent for each year")
 ```
 
 ![](hw03_gapminder-chenchenguo_files/figure-markdown_github/unnamed-chunk-8-1.png)
